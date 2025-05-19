@@ -1,0 +1,57 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-main {
+  flex: 1;
+  margin-left: 250px;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f7f9;
+}
+
+.admin-header {
+  background-color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e9ecef;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #2c3e50;
+  cursor: pointer;
+}
+
+.admin-user {
+  display: flex;
+  align-items: center;
+}
+
+.welcome-message {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Responsive design */
+@media screen and (max-width: 992px) {
+  .admin-main {
+    margin-left: 0;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+}

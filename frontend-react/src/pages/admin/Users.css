@@ -1,0 +1,266 @@
+.admin-users {
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-box {
+  flex: 2;
+}
+
+.filter-box,
+.sort-box {
+  flex: 1;
+}
+
+.search-box input,
+.filter-box select,
+.sort-box select {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.users-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.users-table th,
+.users-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.users-table th {
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.users-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.username {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-top: 0.2rem;
+}
+
+.role-badge,
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.role-badge.admin {
+  background-color: #9b59b6;
+  color: white;
+}
+
+.role-badge.user {
+  background-color: #3498db;
+  color: white;
+}
+
+.status-badge.active {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.status-badge.inactive {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.actions-cell {
+  min-width: 250px;
+}
+
+.action-dropdown {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.view-details-btn {
+  background-color: #f8f9fa;
+  color: #3498db;
+  border: 1px solid #3498db;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.view-details-btn:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+.role-dropdown {
+  position: relative;
+}
+
+.role-btn {
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.role-btn:hover {
+  background-color: #ecf0f1;
+}
+
+.role-options {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  width: 120px;
+  z-index: 10;
+  display: none;
+}
+
+.role-dropdown:hover .role-options {
+  display: block;
+}
+
+.role-options button {
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.role-options button:hover {
+  background-color: #f8f9fa;
+}
+
+.role-options button.active {
+  background-color: #ecf0f1;
+  font-weight: 600;
+}
+
+.status-toggle {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.status-toggle.activate {
+  background-color: #f8f9fa;
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+.status-toggle.activate:hover {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.status-toggle.deactivate {
+  background-color: #f8f9fa;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
+
+.status-toggle.deactivate:hover {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  color: #7f8c8d;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+/* Responsive design */
+@media screen and (max-width: 992px) {
+  .filters-bar {
+    flex-direction: column;
+  }
+  
+  .search-box,
+  .filter-box,
+  .sort-box {
+    flex: auto;
+    width: 100%;
+  }
+  
+  .action-dropdown {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .users-table {
+    font-size: 0.9rem;
+  }
+  
+  .users-table th,
+  .users-table td {
+    padding: 0.8rem 0.5rem;
+  }
+}

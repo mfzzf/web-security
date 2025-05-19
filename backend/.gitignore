@@ -1,0 +1,28 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# IDE-specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Environment configuration files
+app.env
+*.env
+
+# Go build output
+backend # if the binary is named 'backend'
+
+# Dependency directories (if you are not using Go modules or vendoring)
+# vendor/
