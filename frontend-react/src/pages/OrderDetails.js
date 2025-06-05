@@ -87,7 +87,11 @@ const OrderDetails = () => {
   }
   
   if (error) {
-    return <div className="order-details-error">Error: {error}</div>;
+    return (
+      <div className="order-details-error">
+        Error: {typeof error === 'string' ? error : error.message || 'Failed to load order details'}
+      </div>
+    );
   }
   
   if (!order) {

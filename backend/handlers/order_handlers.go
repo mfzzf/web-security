@@ -28,8 +28,15 @@ func CreateOrder(c *gin.Context) {
 	// Generate a unique order number
 	orderNumber := generateOrderNumber()
 
-	// TODO: Get UserID from authenticated context instead of request body for security.
-	// For now, we'll use req.UserID.
+	// Get UserID from authenticated context for security
+	userID, exists := c.Get("userID")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
+		return
+	}
+
+	// Override request UserID with authenticated user ID for security
+	req.UserID = userID.(int)
 
 	tx, err := db.DB.Begin()
 	if err != nil {
@@ -219,13 +226,13 @@ func GetOrdersByUserID(c *gin.Context) {
 
 	for rows.Next() {
 		var (
-			id, userID                         int
-			orderNumber, status, paymentMethod string
-			paymentStatus, shippingAddress     string
+			id, userID                          int
+			orderNumber, status, paymentMethod  string
+			paymentStatus, shippingAddress      string
 			totalAmount, subtotal, shippingCost float64
-			discountAmount                     float64
-			createdAt                          time.Time
-			itemCount                          int
+			discountAmount                      float64
+			createdAt                           time.Time
+			itemCount                           int
 		)
 
 		if err := rows.Scan(
@@ -239,11 +246,11 @@ func GetOrdersByUserID(c *gin.Context) {
 
 		// 创建前端期望格式的订单对象
 		order := map[string]interface{}{
-			"id":             id,
-			"orderNumber":    orderNumber,
-			"userId":         userID,
-			"status":         status,      // 从 order_status 重命名
-			"totalAmount":    totalAmount, // 从 total_amount 重命名
+			"id":              id,
+			"orderNumber":     orderNumber,
+			"userId":          userID,
+			"status":          status,      // 从 order_status 重命名
+			"totalAmount":     totalAmount, // 从 total_amount 重命名
 			"shippingAddress": shippingAddress,
 			"paymentMethod":   paymentMethod,
 			"paymentStatus":   paymentStatus,
@@ -316,17 +323,55 @@ func GetOrderByID(c *gin.Context) {
 		return
 	}
 
-	// TODO: Validate user ownership or admin access.
+	// Validate user ownership or admin access
+	userID, exists := c.Get("userID")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
+		return
+	}
+
+	userRole, roleExists := c.Get("role")
+	if !roleExists {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "User role not found"})
+		return
+	}
+
+	// Check if user is admin or owns the order
+	// Safe type assertion with error handling
+	role, ok := userRole.(string)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user role type"})
+		return
+	}
+
+	if role != "admin" {
+		// Verify order ownership for non-admin users
+		var orderOwnerID int
+		err = db.DB.QueryRow("SELECT user_id FROM orders WHERE id = ?", orderID).Scan(&orderOwnerID)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				c.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
+			} else {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error: " + err.Error()})
+			}
+			return
+		}
+
+		if orderOwnerID != userID.(int) {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Access denied: You can only view your own orders"})
+			return
+		}
+	}
 
 	// 查询订单详情，包含更多字段
 	var (
-		id, userID                         int
-		orderNumber, status, paymentMethod string
-		paymentStatus, shippingAddress     string
+		id, orderUserID                     int
+		orderNumber, status, paymentMethod  string
+		paymentStatus, shippingAddress      string
 		totalAmount, subtotal, shippingCost float64
-		discountAmount                     float64
-		createdAt, updatedAt               time.Time
-		trackingNumber                     sql.NullString
+		discountAmount                      float64
+		createdAt, updatedAt                time.Time
+		trackingNumber                      sql.NullString
 	)
 
 	orderQuery := `
@@ -339,7 +384,7 @@ func GetOrderByID(c *gin.Context) {
     `
 
 	err = db.DB.QueryRow(orderQuery, orderID).Scan(
-		&id, &orderNumber, &userID, &subtotal, &shippingCost,
+		&id, &orderNumber, &orderUserID, &subtotal, &shippingCost,
 		&discountAmount, &totalAmount, &paymentMethod, &paymentStatus,
 		&status, &shippingAddress, &trackingNumber, &createdAt, &updatedAt,
 	)
@@ -355,11 +400,11 @@ func GetOrderByID(c *gin.Context) {
 
 	// 创建前端期望格式的订单对象
 	order := map[string]interface{}{
-		"id":             id,
-		"orderNumber":    orderNumber,
-		"userId":         userID,
-		"status":         status,      // 从 order_status 重命名
-		"totalAmount":    totalAmount, // 从 total_amount 重命名
+		"id":              id,
+		"orderNumber":     orderNumber,
+		"userId":          orderUserID,
+		"status":          status,      // 从 order_status 重命名
+		"totalAmount":     totalAmount, // 从 total_amount 重命名
 		"shippingAddress": shippingAddress,
 		"paymentMethod":   paymentMethod,
 		"paymentStatus":   paymentStatus,
@@ -478,7 +523,58 @@ func UpdateOrderStatus(c *gin.Context) {
 		return
 	}
 
-	// TODO: Add validation for valid status transitions
+	// Validate user permissions for status updates
+	userRole, roleExists := c.Get("role")
+	if !roleExists {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "User role not found"})
+		return
+	}
+
+	// Safe type assertion with error handling
+	role, ok := userRole.(string)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid user role type"})
+		return
+	}
+
+	if role != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Only administrators can update order status"})
+		return
+	}
+
+	// Validate status transitions
+	validStatuses := map[string]bool{
+		"pending":    true,
+		"confirmed":  true,
+		"processing": true,
+		"shipped":    true,
+		"delivered":  true,
+		"cancelled":  true,
+		"refunded":   true,
+	}
+
+	if !validStatuses[req.Status] {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid status. Valid statuses are: pending, confirmed, processing, shipped, delivered, cancelled, refunded"})
+		return
+	}
+
+	// Get current order status to validate transition
+	var currentStatus string
+	err = db.DB.QueryRow("SELECT order_status FROM orders WHERE id = ?", orderID).Scan(&currentStatus)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error: " + err.Error()})
+		}
+		return
+	}
+
+	// Validate status transition logic
+	if !isValidStatusTransition(currentStatus, req.Status) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Invalid status transition from %s to %s", currentStatus, req.Status)})
+		return
+	}
 
 	stmt, err := db.DB.Prepare("UPDATE orders SET order_status = ? WHERE id = ?")
 	if err != nil {
@@ -500,4 +596,38 @@ func UpdateOrderStatus(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Order status updated successfully", "order_id": orderID, "new_status": req.Status})
+}
+
+// isValidStatusTransition validates whether a status transition is allowed
+func isValidStatusTransition(currentStatus, newStatus string) bool {
+	// Define valid status transitions
+	validTransitions := map[string][]string{
+		"pending":    {"confirmed", "cancelled"},
+		"confirmed":  {"processing", "cancelled"},
+		"processing": {"shipped", "cancelled"},
+		"shipped":    {"delivered", "cancelled"},
+		"delivered":  {"refunded"},
+		"cancelled":  {},                       // No transitions from cancelled
+		"refunded":   {},                       // No transitions from refunded
+		"unpaid":     {"pending", "cancelled"}, // Allow unpaid to pending or cancelled
+	}
+
+	// Allow same status (no change)
+	if currentStatus == newStatus {
+		return true
+	}
+
+	// Check if transition is valid
+	allowedTransitions, exists := validTransitions[currentStatus]
+	if !exists {
+		return false
+	}
+
+	for _, allowedStatus := range allowedTransitions {
+		if allowedStatus == newStatus {
+			return true
+		}
+	}
+
+	return false
 }

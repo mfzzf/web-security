@@ -62,6 +62,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		c.Set("userID", claims.UserID)
 		c.Set("username", claims.Username)
 		c.Set("role", claims.Role)
+		c.Set("userRole", claims.Role) // 为了兼容性，同时设置 userRole
 
 		c.Next()
 	}
