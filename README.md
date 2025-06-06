@@ -420,15 +420,15 @@ SET FOREIGN_KEY_CHECKS = 1;
 -   **产品 (Products):** `/api/products`
     -   `GET /`: 获取产品列表
     -   `GET /:id`: 获取单个产品详情
-    -   `POST /`: 创建新产品 (目前无特定管理员认证，建议添加)
-    -   `PUT /:id`: 更新产品信息 (目前无特定管理员认证，建议添加)
-    -   `DELETE /:id`: 删除产品 (目前无特定管理员认证，建议添加)
+    -   `POST /`: 创建新产品 
+    -   `PUT /:id`: 更新产品信息 
+    -   `DELETE /:id`: 删除产品 
 -   **分类 (Categories):** `/api/categories`
     -   `GET /`: 获取分类列表
     -   `GET /:id`: 获取单个分类详情
-    -   `POST /`: 创建新分类 (目前无特定管理员认证，建议添加)
-    -   `PUT /:id`: 更新分类信息 (目前无特定管理员认证，建议添加)
-    -   `DELETE /:id`: 删除分类 (目前无特定管理员认证，建议添加)
+    -   `POST /`: 创建新分类 
+    -   `PUT /:id`: 更新分类信息 
+    -   `DELETE /:id`: 删除分类 
 -   **订单 (Orders):** `/api/orders`
     -   `POST /`: 创建新订单 (需认证)
     -   `GET /user/:userID`: 获取指定用户的订单列表 (需认证)
