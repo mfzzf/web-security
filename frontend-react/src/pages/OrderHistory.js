@@ -132,7 +132,7 @@ const OrderHistory = () => {
                           <div className="order-item" key={`${order.id}-${index}`}>
                             <div className="item-image">
                               <img 
-                                src={item.product?.imageUrl ? (item.product.imageUrl.startsWith('http') ? item.product.imageUrl : `http://localhost:8080${item.product.imageUrl}`) : 'https://via.placeholder.com/60'} 
+                                src={item.product?.imageUrl ? (item.product.imageUrl.startsWith('http') ? item.product.imageUrl : `http://47.97.51.174:2808${item.product.imageUrl}`) : 'https://via.placeholder.com/60'} 
                                 alt={item.product?.name} 
                               />
                             </div>

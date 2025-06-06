@@ -476,7 +476,7 @@ SET FOREIGN_KEY_CHECKS = 1;
     ```bash
     go run main.go
     ```
-    服务器默认将在 `app.env` 中配置的 `ServerAddress` (例如 `http://localhost:8080`) 上运行。
+    服务器默认将在 `app.env` 中配置的 `ServerAddress` (例如 `http://47.97.51.174:2808`) 上运行。
 
 ### 7.3 前端配置与启动 (Frontend Setup & Launch)
 
@@ -491,7 +491,7 @@ SET FOREIGN_KEY_CHECKS = 1;
     # yarn install
     ```
 3.  **配置 API 地址 (如果需要):**
-    前端应用通常会在 `src/services/api.js` 或类似文件中配置后端 API 的基础 URL。确保它指向正在运行的后端服务 (例如 `http://localhost:8080/api`)。
+    前端应用通常会在 `src/services/api.js` 或类似文件中配置后端 API 的基础 URL。确保它指向正在运行的后端服务 (例如 `http://47.97.51.174:2808/api`)。
 4.  **启动前端开发服务器:**
     ```bash
     npm start
@@ -527,7 +527,7 @@ SET FOREIGN_KEY_CHECKS = 1;
     -   `/admin/reports`: 管理员报告页 (`AdminReports`)
     -   `/admin/settings`: 管理员设置页 (`AdminSettings`)
 
-## 9. (可选) 部署说明 (Deployment Notes)
+## 9. 部署说明 (Deployment Notes)
 
 -   **后端:**
     -   编译 Go 应用为可执行文件: `go build -o your_app_name main.go`
@@ -538,7 +538,7 @@ SET FOREIGN_KEY_CHECKS = 1;
     -   将 `frontend-react/build` 目录下的静态文件部署到 Web 服务器 (如 Nginx, Apache) 或静态站点托管服务。
     -   配置 Web 服务器以正确处理客户端路由 (例如，将所有未匹配的请求重定向到 `index.html`)。
 
-## 10. (可选) 贡献指南 (Contributing)
+## 10. 贡献指南 (Contributing)
 
 欢迎对本项目进行贡献！请遵循以下基本准则：
 

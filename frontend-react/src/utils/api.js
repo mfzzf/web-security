@@ -4,7 +4,7 @@ import { refreshToken } from '../store/slices/authSlice';
 
 // 创建axios实例
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api'
+  baseURL: 'http://47.97.51.174:2808/api'
 });
 
 // 请求拦截器，自动添加令牌

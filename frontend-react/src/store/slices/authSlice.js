@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // 更新API路径
-const AUTH_API_URL = 'http://localhost:8080/api/auth';
-const USERS_API_URL = 'http://localhost:8080/api/users';
+const AUTH_API_URL = 'http://47.97.51.174:2808/api/auth';
+const USERS_API_URL = 'http://47.97.51.174:2808/api/users';
 
 // 令牌过期前的刷新阈值（毫秒）
 const REFRESH_THRESHOLD = 5 * 60 * 1000; // 5分钟
@@ -133,7 +133,7 @@ export const fetchUserProfile = createAsyncThunk(
         }
       });
       
-      // 映射后端字段名到前端字段名
+      // 映射后端字段名到前端字段名，并添加isAdmin属性
       return {
         id: response.data.id,
         username: response.data.username,
@@ -145,6 +145,7 @@ export const fetchUserProfile = createAsyncThunk(
         state: response.data.state_province,
         zipCode: response.data.zip_postal_code,
         role: response.data.role,
+        isAdmin: response.data.role === 'admin', // 添加isAdmin属性，用于前端权限检查
         lastLogin: response.data.last_login,
         accountStatus: response.data.account_status,
         createdAt: response.data.created_at,

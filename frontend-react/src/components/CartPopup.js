@@ -94,7 +94,7 @@ const CartPopup = () => {
                 <div key={item.id} className="cart-popup-item">
                   <div className="item-image">
                     <img 
-                      src={item.imageUrl ? `http://localhost:8080${item.imageUrl}` : 'https://via.placeholder.com/80'}
+                      src={item.imageUrl ? `http://47.97.51.174:2808${item.imageUrl}` : 'https://via.placeholder.com/80'}
                       alt={item.name} 
                     />
                   </div>

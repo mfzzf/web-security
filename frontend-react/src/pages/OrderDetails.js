@@ -134,7 +134,7 @@ const OrderDetails = () => {
                 <div className="order-item-detail" key={index}>
                   <div className="item-image">
                     <img 
-                      src={item.product?.imageUrl ? (item.product.imageUrl.startsWith('http') ? item.product.imageUrl : `http://localhost:8080${item.product.imageUrl}`) : 'https://via.placeholder.com/80'} 
+                      src={item.product?.imageUrl ? (item.product.imageUrl.startsWith('http') ? item.product.imageUrl : `http://47.97.51.174:2808${item.product.imageUrl}`) : 'https://via.placeholder.com/80'} 
                       alt={item.product?.name} 
                     />
                   </div>
