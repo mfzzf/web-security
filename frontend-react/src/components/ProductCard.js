@@ -30,7 +30,7 @@ const ProductCard = ({ product, onAddToCart }) => {
       <div className="product-image-container">
         <Link to={`/products/${product.id}`}>
           <img
-            src={product.image_main ? `http://47.97.51.174:2808/product-images/${product.image_main}` : getImagePlaceholder(product.name, 300, 300, 'f0f0f0', '333333')}
+            src={product.image_main ? `http://127.0.0.1:8080/product-images/${product.image_main}` : getImagePlaceholder(product.name, 300, 300, 'f0f0f0', '333333')}
             alt={product.name}
             className="product-image"
             onError={handleImageError}

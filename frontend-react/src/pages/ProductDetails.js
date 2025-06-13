@@ -43,7 +43,7 @@ const ProductDetails = () => {
         name: product.name,
         price: product.discount_price || product.price,
         originalPrice: product.discount_price ? product.price : null,
-        imageUrl: product.image_main ? `http://47.97.51.174:2808/product-images/${product.image_main}` : `https://via.placeholder.com/400x300/eeeeee/333333?text=${encodeURIComponent(product.name)}`,
+        imageUrl: product.image_main ? `http://127.0.0.1:8080/product-images/${product.image_main}` : `https://via.placeholder.com/400x300/eeeeee/333333?text=${encodeURIComponent(product.name)}`,
         sku: product.sku,
         quantity
       }));
@@ -79,7 +79,7 @@ const ProductDetails = () => {
         <div className="product-details-image">
           {/* Main product image */}
           <img 
-            src={currentImage ? `http://47.97.51.174:2808/product-images/${currentImage}` : `https://via.placeholder.com/400x300/eeeeee/333333?text=${encodeURIComponent(product.name)}`} 
+            src={currentImage ? `http://127.0.0.1:8080/product-images/${currentImage}` : `https://via.placeholder.com/400x300/eeeeee/333333?text=${encodeURIComponent(product.name)}`} 
             alt={product.name} 
             className="main-product-image"
             onError={(e) => {
@@ -97,7 +97,7 @@ const ProductDetails = () => {
                 onClick={() => handleThumbnailClick(product.image_main)}
               >
                 <img 
-                  src={`http://47.97.51.174:2808/product-images/${product.image_main}`} 
+                  src={`http://127.0.0.1:8080/product-images/${product.image_main}`} 
                   alt={`${product.name} main view`} 
                   onError={(e) => {
                     e.target.onerror = null;
@@ -114,7 +114,7 @@ const ProductDetails = () => {
                   onClick={() => handleThumbnailClick(img)}
                 >
                   <img 
-                    src={`http://47.97.51.174:2808/product-images/${img}`} 
+                    src={`http://127.0.0.1:8080/product-images/${img}`} 
                     alt={`${product.name} view ${index + 1}`} 
                     onError={(e) => {
                       e.target.onerror = null;

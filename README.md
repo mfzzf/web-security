@@ -476,7 +476,7 @@ SET FOREIGN_KEY_CHECKS = 1;
     ```bash
     go run main.go
     ```
-    服务器默认将在 `app.env` 中配置的 `ServerAddress` (例如 `http://47.97.51.174:2808`) 上运行。
+    服务器默认将在 `app.env` 中配置的 `ServerAddress` (例如 `http://127.0.0.1:8080`) 上运行。
 
 ### 7.3 前端配置与启动 (Frontend Setup & Launch)
 
@@ -491,7 +491,7 @@ SET FOREIGN_KEY_CHECKS = 1;
     # yarn install
     ```
 3.  **配置 API 地址 (如果需要):**
-    前端应用通常会在 `src/services/api.js` 或类似文件中配置后端 API 的基础 URL。确保它指向正在运行的后端服务 (例如 `http://47.97.51.174:2808/api`)。
+    前端应用通常会在 `src/services/api.js` 或类似文件中配置后端 API 的基础 URL。确保它指向正在运行的后端服务 (例如 `http://127.0.0.1:8080/api`)。
 4.  **启动前端开发服务器:**
     ```bash
     npm start

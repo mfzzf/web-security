@@ -56,7 +56,7 @@ const AdminProducts = () => {
     
     // Apply category filter
     if (categoryFilter) {
-      results = results.filter(product => product.categoryId === categoryFilter);
+      results = results.filter(product => product.category_id === Number(categoryFilter));
     }
     
     // Apply sorting
@@ -164,23 +164,23 @@ const AdminProducts = () => {
                 <tr key={product.id}>
                   <td className="product-image-cell">
                     <img 
-                      src={product.imageUrl || 'https://via.placeholder.com/60'} 
+                      src={product.image_main ? `http://127.0.0.1:8080/product-images/${product.image_main}` : 'https://via.placeholder.com/60'} 
                       alt={product.name} 
                     />
                   </td>
                   <td>{product.name}</td>
-                  <td>{getCategoryName(product.categoryId)}</td>
+                  <td>{getCategoryName(product.category_id)}</td>
                   <td>${product.price?.toFixed(2)}</td>
                   <td>
-                    {product.stockQuantity !== undefined ? (
-                      <span className={product.stockQuantity < 10 ? 'low-stock' : ''}>
-                        {product.stockQuantity}
+                    {product.stock_quantity !== undefined ? (
+                      <span className={product.stock_quantity < 10 ? 'low-stock' : ''}>
+                        {product.stock_quantity}
                       </span>
                     ) : 'N/A'}
                   </td>
                   <td>
-                    <span className={`status ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
-                      {product.inStock ? 'In Stock' : 'Out of Stock'}
+                    <span className={`status ${product.stock_quantity > 0 && product.is_active ? 'in-stock' : 'out-of-stock'}`}>
+                      {product.stock_quantity > 0 && product.is_active ? 'In Stock' : 'Out of Stock'}
                     </span>
                   </td>
                   <td className="actions-cell">
@@ -189,14 +189,16 @@ const AdminProducts = () => {
                       onClick={() => handleEdit(product)}
                       title="Edit"
                     >
-                      <i className="fas fa-edit"></i>
+                      <i className="fas fa-edit" aria-hidden="true"></i>
+                      <span className="btn-label">Edit</span>
                     </button>
                     <button 
                       className="delete-btn"
                       onClick={() => handleDelete(product.id)}
                       title="Delete"
                     >
-                      <i className="fas fa-trash-alt"></i>
+                      <i className="fas fa-trash-alt" aria-hidden="true"></i>
+                      <span className="btn-label">Delete</span>
                     </button>
                   </td>
                 </tr>

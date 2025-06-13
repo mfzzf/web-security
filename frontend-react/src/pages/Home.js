@@ -42,7 +42,7 @@ const Home = () => {
       name: product.name,
       price: product.discount_price || product.price,
       originalPrice: product.discount_price ? product.price : null,
-      imageUrl: product.image_main ? `http://47.97.51.174:2808/product-images/${product.image_main}` : getImagePlaceholder(product.name, 150, 150),
+      imageUrl: product.image_main ? `http://127.0.0.1:8080/product-images/${product.image_main}` : getImagePlaceholder(product.name, 150, 150),
       sku: product.sku,
       quantity: 1
     }));
@@ -108,7 +108,7 @@ const Home = () => {
                 <div className="category-card" key={category.id}>
                   <div className="category-image">
                     <img 
-                      src={category.image ? `http://47.97.51.174:2808/category-images/${category.image}` : getImagePlaceholder(category.name, 150, 150, 'eeeeee', '333333')} 
+                      src={category.image ? `http://127.0.0.1:8080/category-images/${category.image}` : getImagePlaceholder(category.name, 150, 150, 'eeeeee', '333333')} 
                       alt={category.name}
                       onError={(e) => {
                         e.target.onerror = null;

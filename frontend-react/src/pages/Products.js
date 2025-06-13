@@ -142,7 +142,7 @@ const Products = () => {
       name: product.name,
       price: product.discount_price || product.price,
       originalPrice: product.discount_price ? product.price : null,
-      imageUrl: product.image_main ? `http://47.97.51.174:2808/product-images/${product.image_main}` : 'https://via.placeholder.com/150',
+      imageUrl: product.image_main ? `http://127.0.0.1:8080/product-images/${product.image_main}` : 'https://via.placeholder.com/150',
       sku: product.sku,
       quantity: 1
     }));

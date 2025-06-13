@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // 更新API路径
-const AUTH_API_URL = 'http://47.97.51.174:2808/api/auth';
-const USERS_API_URL = 'http://47.97.51.174:2808/api/users';
+const AUTH_API_URL = 'http://127.0.0.1:8080/api/auth';
+const USERS_API_URL = 'http://127.0.0.1:8080/api/users';
 
 // 令牌过期前的刷新阈值（毫秒）
 const REFRESH_THRESHOLD = 5 * 60 * 1000; // 5分钟
